@@ -132,7 +132,7 @@ export default function Randomize1Page() {
                         <div className="indent">xlab = <span className="spanO">&quot;Block&quot;</span>,</div>
                         <div className="indent">axes = <span className="spanB">FALSE</span><span className="spanY">)</span></div>
                         <div>axis<span className="spanY">(</span><span className="spanLG">1</span>, at = seq<span className="spanP">(</span><span className="spanLG">0</span>, <span className="spanLG">1</span>, length.out = n_blocks<span className="spanP">)</span>, labels = seq<span className="spanP">(</span>n_blocks<span className="spanP">)</span><span className="spanY">)</span></div>
-                        <div>grid<span className="spanY">(</span>nx = n_blocks, ny = block_size, col = "red", lty =<span className="spanLG"> 1</span>, lwd =<span className="spanLG"> 1</span><span className="spanY">)</span></div>
+                        <div>grid<span className="spanY">(</span>nx = n_blocks, ny = block_size, col = &quot;red&quot;, lty =<span className="spanLG"> 1</span>, lwd =<span className="spanLG"> 1</span><span className="spanY">)</span></div>
                         <div>par<span className="spanY">(</span>xpd = <span className="spanB">TRUE</span><span className="spanY">)</span></div>
                         <div className="indent">legend = c<span className="spanP">(</span><span className="spanO">&quot;Treatment&quot;</span>,<span className="spanO"> &quot;Control&quot;</span><span className="spanP">)</span>, fill = treatment_colors<span className="spanY">)</span></div> {/* <--- FIXED: Quotes escaped */}
                         <br></br>
