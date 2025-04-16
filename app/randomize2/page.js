@@ -103,7 +103,6 @@ export default function Randomize2Page() {
         <div className="randomize-2-container">
             <div className="top">
                 <h3>Hover over the code for a detailed description.</h3>
-                // Line 107 corrected
                 <h3>
                     Change block_size (must be an even number between 2 and 10), and click &quot;RUN CODE&quot; to view Block Randomization.
                 </h3>
