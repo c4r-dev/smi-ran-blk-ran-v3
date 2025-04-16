@@ -85,7 +85,7 @@ export default function Randomize1Page() {
         // --- JSX structure from original randomize1.js ---
         <div className="randomize-1-container">
             <div className="top">
-                <h2>Let's Visualize Block Randomization.</h2>
+                <h2>Let&apos;s Visualize Block Randomization.</h2>
                 <h4>
                     Block randomization is as simple as hitting a button! Free
                     software packages such as{" "}
@@ -93,7 +93,7 @@ export default function Randomize1Page() {
                     your study.
                 </h4>
                 <h4>
-                    But what is happening under the hood? Click "RUN CODE" on
+                    But what is happening under the hood? Click &quot;RUN CODE&quot; on
                     this R code to see a visualization of a block randomized
                     study with 2 treatments.
                 </h4>
@@ -103,7 +103,7 @@ export default function Randomize1Page() {
                 <div className="code-container">
                     {/* --- R Code Simulation JSX from original randomize1.js --- */}
                     <div className="code">
-                         <div><br></br></div>
+                        <div><br></br></div>
                         <div>library<span className="spanY">(</span>viridisLite<span className="spanY">)</span></div>
                         <div><br></br></div>
                         <div><span className="spanG"># In how many blocks will subjects be randomized?</span></div>
@@ -129,13 +129,13 @@ export default function Randomize1Page() {
                         <div>par<span className="spanY">(</span>xpd = <span className="spanB">FALSE</span>, mar = c<span className="spanP">(</span><span className="spanLG">5</span>, <span className="spanLG">4</span>, <span className="spanLG">4</span>, <span className="spanLG">11</span><span className="spanP">)</span><span className="spanY">)</span></div>
                         <div>image<span className="spanY">(</span>study_blocks,</div>
                         <div className="indent">col = treatment_colors,</div>
-                        <div className="indent">xlab = <span className="spanO">"Block"</span>,</div>
+                        <div className="indent">xlab = <span className="spanO">&quot;Block&quot;</span>,</div>
                         <div className="indent">axes = <span className="spanB">FALSE</span><span className="spanY">)</span></div>
                         <div>axis<span className="spanY">(</span><span className="spanLG">1</span>, at = seq<span className="spanP">(</span><span className="spanLG">0</span>, <span className="spanLG">1</span>, length.out = n_blocks<span className="spanP">)</span>, labels = seq<span className="spanP">(</span>n_blocks<span className="spanP">)</span><span className="spanY">)</span></div>
                         <div>grid<span className="spanY">(</span>nx = n_blocks, ny = block_size, col = "red", lty =<span className="spanLG"> 1</span>, lwd =<span className="spanLG"> 1</span><span className="spanY">)</span></div>
                         <div>par<span className="spanY">(</span>xpd = <span className="spanB">TRUE</span><span className="spanY">)</span></div>
                         <div>legend<span className="spanY">(</span><span className="spanLG">1</span> + <span className="spanLG">1.25</span> / n_blocks, <span className="spanLG">1</span>,</div>
-                        <div className="indent">legend = c<span className="spanP">(</span><span className="spanO">"Treatment"</span>,<span className="spanO"> "Control"</span><span className="spanP">)</span>, fill = treatment_colors<span className="spanY">)</span></div>
+                        <div className="indent">legend = c<span className="spanP">(</span><span className="spanO">&quot;Treatment&quot;</span>,<span className="spanO"> &quot;Control&quot;</span><span className="spanP">)</span>, fill = treatment_colors<span className="spanY">)</span></div>
                         <br></br>
                     </div>
                     {/* --- End R Code Simulation --- */}

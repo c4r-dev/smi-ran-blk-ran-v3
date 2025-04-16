@@ -18,7 +18,7 @@ export default function FinalPage() {
                     <br></br><br></br>
                     <br></br><br></br>
                     <h1>BLOCK RANDOMIZATION</h1>
-                    <h3>YOU'VE FINISHED THIS ACTIVITY</h3>
+                    <h3>YOU&apos;VE FINISHED THIS ACTIVITY</h3>
                     <h1>CONGRATULATIONS</h1>
                     {/* <h3>** place holder for additional text **</h3> */}
                 </div>

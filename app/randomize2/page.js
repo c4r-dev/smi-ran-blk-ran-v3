@@ -89,7 +89,7 @@ export default function Randomize2Page() {
             alert("Block size must be a number between 2 and 10");
             setBlockSize(10); // Reset to default if invalid
         } else if (currentBlockSize % numTreatments !== 0) {
-             alert("Block size must be divisible by the number of treatments (2)");
+            alert("Block size must be divisible by the number of treatments (2)");
         }
         else {
             // Use the helper function defined above
@@ -103,8 +103,9 @@ export default function Randomize2Page() {
         <div className="randomize-2-container">
             <div className="top">
                 <h3>Hover over the code for a detailed description.</h3>
+                // Line 107 corrected
                 <h3>
-                    Change block_size (must be an even number between 2 and 10), and click "RUN CODE" to view Block Randomization.
+                    Change block_size (must be an even number between 2 and 10), and click &quot;RUN CODE&quot; to view Block Randomization.
                 </h3>
             </div>
 
@@ -112,12 +113,12 @@ export default function Randomize2Page() {
                 <div className="code-container">
                     {/* --- R Code Simulation JSX with HoverOverlay from original randomize2.js --- */}
                     <div className="code">
-                         {/* Wrap in form for semantics, prevent default submit */}
+                        {/* Wrap in form for semantics, prevent default submit */}
                         <form onSubmit={(e) => { e.preventDefault(); submitRunClick(); }}>
-                           <HoverOverlay overlayText="The viridisLite package will be used to assign colors to different treatments.">
+                            <HoverOverlay overlayText="The viridisLite package will be used to assign colors to different treatments.">
                                 <div>library<span className="spanY">(</span>viridisLite<span className="spanY">)</span></div>
                             </HoverOverlay>
-                            <br/>
+                            <br />
                             <HoverOverlay overlayText={`The number of blocks (${numBlocks}) indicates how many sets of random assignments will be generated. There are ${numTreatments} treatments. The block_size is set to ${blockSize} (changeable) and must be divisible by ${numTreatments}.`}>
                                 <div><span className="spanG"># In how many blocks will subjects be randomized?</span></div>
                                 <div>n_blocks &lt;- <span className="spanLG">{numBlocks}</span></div>
@@ -136,13 +137,13 @@ export default function Randomize2Page() {
                                             min="2" // Add min/max for basic validation
                                             max="10"
                                             step="2" // Assuming only even numbers are valid as per description
-                                            style={{ width: '30px', color: 'rgb(199, 235, 199)', backgroundColor: 'black', border: 'none', textAlign: 'center'}} // Basic styling
+                                            style={{ width: '30px', color: 'rgb(199, 235, 199)', backgroundColor: 'black', border: 'none', textAlign: 'center' }} // Basic styling
                                         />
                                     </span>
                                 </div>
                                 <div>stopifnot<span className="spanY">(</span>block_size %% n_treatments == 0<span className="spanY">)</span></div>
                             </HoverOverlay>
-                            <br/>
+                            <br />
                             <HoverOverlay overlayText="rep(seq(n_treatments), block_size %/% n_treatments): Generates treatment labels repeated to fill the block size. sample(): Shuffles treatments within each block. replicate(): Replicates randomized blocks.">
                                 <div><span className="spanG"># Generate random orders of treatments</span></div>
                                 <div>treatments_in_block &lt;- rep<span className="spanY">(</span>seq<span className="spanP">(</span>n_treatments<span className="spanP">)</span>,</div>
@@ -152,28 +153,28 @@ export default function Randomize2Page() {
                                 <div className="indent">replicate<span className="spanY">(</span>n = n_blocks<span className="spanY">)</span></div>
                                 <div className="indent">t<span className="spanY">()</span></div>
                             </HoverOverlay>
-                             <br/>
-                             <HoverOverlay overlayText="Visualize the treatment orders using colors.">
+                            <br />
+                            <HoverOverlay overlayText="Visualize the treatment orders using colors.">
                                 <div><span className="spanG"># Visualize the treatment orders</span></div>
                                 <div>treatment_colors &lt;- inferno<span className="spanY">(</span>n_treatments<span className="spanY">)</span></div>
-                             </HoverOverlay>
-                             <HoverOverlay overlayText="Adjust plotting parameters (margins, clipping).">
+                            </HoverOverlay>
+                            <HoverOverlay overlayText="Adjust plotting parameters (margins, clipping).">
                                 <div>par<span className="spanY">(</span>xpd = <span className="spanB">FALSE</span>, mar = c<span className="spanP">(</span><span className="spanLG">5</span>, <span className="spanLG">4</span>, <span className="spanLG">4</span>, <span className="spanLG">11</span><span className="spanP">)</span><span className="spanY">)</span></div>
                             </HoverOverlay>
-                             <HoverOverlay overlayText='Create an image plot showing treatment order in blocks using colors.'>
+                            <HoverOverlay overlayText='Create an image plot showing treatment order in blocks using colors.'>
                                 <div>image<span className="spanY">(</span>study_blocks,</div>
                                 <div className="indent">col = treatment_colors,</div>
-                                <div className="indent">xlab = <span className="spanO">"Block"</span>,</div>
+                                <div className="indent">xlab = <span className="spanO">&quot;Block&quot;</span>,</div>
                                 <div className="indent">axes = <span className="spanB">FALSE</span><span className="spanY">)</span></div>
-                             </HoverOverlay>
-                             <HoverOverlay overlayText='Add labeled axes for blocks and a grid. Adds a legend outside the plot area.'>
+                            </HoverOverlay>
+                            <HoverOverlay overlayText='Add labeled axes for blocks and a grid. Adds a legend outside the plot area.'>
                                 <div>axis<span className="spanY">(</span><span className="spanLG">1</span>, at = seq<span className="spanP">(</span><span className="spanLG">0</span>, <span className="spanLG">1</span>, length.out = n_blocks<span className="spanP">)</span>, labels = seq<span className="spanP">(</span>n_blocks<span className="spanP">)</span><span className="spanY">)</span></div>
                                 <div>grid<span className="spanY">(</span>nx = n_blocks, ny = blockSize, col = "red", lty =<span className="spanLG"> 1</span>, lwd =<span className="spanLG"> 1</span><span className="spanY">)</span></div>
                                 <div>par<span className="spanY">(</span>xpd = <span className="spanB">TRUE</span><span className="spanY">)</span></div>
                                 <div>legend<span className="spanY">(</span><span className="spanLG">1</span> + <span className="spanLG">1.25</span> / n_blocks, <span className="spanLG">1</span>,</div>
-                                <div className="indent">legend = c<span className="spanP">(</span><span className="spanO">"Treatment"</span>, <span className="spanO">"Control"</span><span className="spanP">)</span>, fill = treatment_colors<span className="spanY">)</span></div>
+                                <div className="indent">legend = c<span className="spanP">(</span><span className="spanO">&quot;Treatment&quot;</span>, <span className="spanO">&quot;Control&quot;</span><span className="spanP">)</span>, fill = treatment_colors<span className="spanY">)</span></div>
                                 <br></br>
-                             </HoverOverlay>
+                            </HoverOverlay>
                         </form>
                     </div>
                     {/* --- End R Code Simulation --- */}
