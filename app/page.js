@@ -83,23 +83,13 @@ export default function Randomize1Page() {
 
     return (
         // --- Main container centers content and handles layout ---
-        <div className="randomize-1-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <div className="top" style={{ width: '80%', marginBottom: '20px' }}> {/* Added width and margin */}
-                <h2>Let&apos;s Visualize Block Randomization.</h2>
                 <h4>
-                    Block randomization is as simple as hitting a button! Free
-                    software packages such as{" "}
-                    <i>blockrand, randomizR, or pspych in R</i> can randomize
-                    your study.
-                </h4>
-                <h4>
-                    But what is happening under the hood? Click &quot;RUN CODE&quot; on
-                    this R code to see a visualization of a block randomized
-                    study with 2 treatments.
+                    Run the code to block randomize, then edit your parameters.
                 </h4>
             </div>
 
-            {/* Container for code and chart, arranged vertically */}
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
                 {/* Code Container */}
@@ -160,7 +150,7 @@ export default function Randomize1Page() {
                 {/* Chart Container - Only displayed if randomization has data */}
                 {randomization.length > 0 && (
                     <div className="chart-container" style={{ width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}> {/* Added width, flex styles and margin */}
-                         <div className="legend-container" style={{alignSelf: 'flex-start', marginBottom: '10px'}}> {/* Align legend left */}
+                        <div className="legend-container" style={{ alignSelf: 'flex-start', marginBottom: '10px' }}> {/* Align legend left */}
                             <Legend />
                         </div>
                         <div className="block-chart2" style={{ width: '100%', maxWidth: '500px' }}> {/* Ensure chart respects container width */}

@@ -2,7 +2,7 @@ import './globals.css'; // Import global styles
 import FaviconButton from "./components/FaviconButton";
 
 export const metadata = {
-  title: 'Block Randomization App',
+  title: 'Block Randomization',
   description: 'Visualization of block randomization',
 };
 
@@ -21,7 +21,7 @@ export default function RootLayout({ children }) {
           {/* Title container for responsive width */}
           <div className="title-container">
             <h1 className="title">
-              Which of these sequences was random?
+              Block Randomization
             </h1>
           </div>
         </header>
