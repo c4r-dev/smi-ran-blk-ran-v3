@@ -7,8 +7,8 @@ import Legend from "./components/Legend"; // Adjusted import path
 export default function Randomize1Page() {
     const router = useRouter();
     const [randomization, setRandomization] = useState([]);
-    let numBlocks = 2;
-    let blockSize = 10;
+    let numBlocks = 5;
+    let blockSize = 5;
     let numTreatments = 2;
 
     // --- Helper Functions (from original file) ---
@@ -103,38 +103,56 @@ export default function Randomize1Page() {
                 <div className="code-container">
                     {/* --- R Code Simulation JSX from original randomize1.js --- */}
                     <div className="code">
+
                         <div><br></br></div>
-                        <div>library<span className="spanY">(</span>viridisLite<span className="spanY">)</span></div>
+                        <div><span className="spanG"># Install required packages</span></div>
+                        <div>installed.packages<span className="spanY">(</span><span className="spanO">&quot;blockrand&quot;, &quot;tidyverse&quot;</span><span className="spanY">)</span></div>
+
                         <div><br></br></div>
-                        <div><span className="spanG"># In how many blocks will subjects be randomized?</span></div>
-                        <div>n_blocks &lt;- <span className="spanLG">{numBlocks}</span></div>
+                        <div><span className="spanG"># Load required packages</span></div>
+                        <div>library<span className="spanY">(</span>blockrand<span className="spanY">)</span></div>
+                        <div>library<span className="spanY">(</span>tidyverse<span className="spanY">)</span></div>
+
                         <div><br></br></div>
-                        <div><span className="spanG"># How many treatments are we using?</span></div>
-                        <div>n_treatments &lt;- <span className="spanLG">{numTreatments}</span></div>
+                        <div><span className="spanG"># Create block randomization allocation sequence using blockrand package</span></div>
+                        <div>block_rand &lt;- blockrand(n = 30, <span className="spanG"># target number of samples</span></div>
+                        <div className="indent">num.levels = 2, <span className="spanG"># number of treatment arms</span></div>
+                        <div className="indent">levels = c("Treatment", "Control"), <span className="spanG"># arm names</span></div>
+                        <div className="indent">block.sizes = c(5), <span className="spanG"># times arms for fixed block</span></div>
+                        <div className="indent">block.prefix = "Block ") <span className="spanG"># block names</span></div>
+
                         <div><br></br></div>
-                        <div><span className="spanG"># What is the block size? (It must be a multiple of number of treatments.)</span></div>
-                        <div>block_size &lt;- <span className="spanLG">{blockSize}</span></div>
-                        <div>stopifnot<span className="spanY">(</span>block_size %% n_treatments == 0<span className="spanY">)</span></div>
+                        <div><span className="spanG"># Add sequential position within each block</span></div>
+                        <div>block_rand &lt;- block_rand %&gt;%</div>
+                        <div className="indent">group_by(block.id) %&gt;%</div>
+                        <div className="indent">mutate(position_in_block = row_number()) %&gt;%</div>
+                        <div className="indent">ungroup()</div>
+
                         <div><br></br></div>
-                        <div><span className="spanG"># Generate random orders of treatments</span></div>
-                        <div>treatments_in_block &lt;- rep<span className="spanY">(</span>seq<span className="spanP">(</span>n_treatments<span className="spanP">)</span>,</div>
-                        <div className="indentLarge">block_size %/% n_treatments<span className="spanY">)</span></div>
-                        <div>study_blocks &lt;-</div>
-                        <div className="indent">sample<span className="spanY">(</span>treatments_in_block<span className="spanY">)</span> |&gt;</div>
-                        <div className="indent">replicate<span className="spanY">(</span>n = n_blocks<span className="spanY">)</span></div>
-                        <div className="indent">t<span className="spanY">()</span></div>
+                        <div><span className="spanG"># Create visualization of the block randomization</span></div>
+                        <div>ggplot(block_rand, aes(x = position_in_block, y = factor(block.id, levels =</div>
+                        <div>rev(unique(block.id))))) +</div>
+                        <div className="indent">geom_tile(aes(fill = treatment), color = 'gray30', width = 0.9, height = 0.9) +</div>
+                        <div className="indent">geom_text(aes(label = id), color = "black", size = 3) +</div>
+                        <div className="indent">scale_fill_brewer(palette = "Set1", name = "Treatment") +</div>
+                        <div className="indent">labs(title = "Block randomization of samples by block"</div>
+                        <div className="indent2">subtitle = paste(length(unique(block_rand$block.id)), "blocks with",</div>
+                        <div className="indent4">unique(block_rand$block.size),</div>
+                        <div className="indent4">"samples per block, randomized to",</div>
+                        <div className="indent4">length(unique(block_rand$treatment)), "treatments"),</div>
+                        <div className="indent2">x = "Treatment sequence", y = "Block") +  # Removed x-axis label</div>
+                        <div className="indent">theme_minimal() +</div>
+                        <div className="indent">theme(</div>
+                        <div className="indent2">panel.grid = element_blank(),</div>
+                        <div className="indent2">axis.text.x = element_blank(),  # Remove x-axis text</div>
+                        <div className="indent2">axis.ticks.x = element_blank()  # Remove x-axis ticks</div>
+                        <div className="indent">)</div>
+
+
+
                         <div><br></br></div>
-                        <div><span className="spanG"># Visualize the treatment orders</span></div>
-                        <div>treatment_colors &lt;- inferno<span className="spanY">(</span>n_treatments<span className="spanO"></span><span className="spanY">)</span></div>
-                        <div>par<span className="spanY">(</span>xpd = <span className="spanB">FALSE</span>, mar = c<span className="spanP">(</span><span className="spanLG">5</span>, <span className="spanLG">4</span>, <span className="spanLG">4</span>, <span className="spanLG">11</span><span className="spanP">)</span><span className="spanY">)</span></div>
-                        <div>image<span className="spanY">(</span>study_blocks,</div>
-                        <div className="indent">col = treatment_colors,</div>
-                        <div className="indent">xlab = <span className="spanO">&quot;Block&quot;</span>,</div>
-                        <div className="indent">axes = <span className="spanB">FALSE</span><span className="spanY">)</span></div>
-                        <div>axis<span className="spanY">(</span><span className="spanLG">1</span>, at = seq<span className="spanP">(</span><span className="spanLG">0</span>, <span className="spanLG">1</span>, length.out = n_blocks<span className="spanP">)</span>, labels = seq<span className="spanP">(</span>n_blocks<span className="spanP">)</span><span className="spanY">)</span></div>
-                        <div>grid<span className="spanY">(</span>nx = n_blocks, ny = block_size, col = &quot;red&quot;, lty =<span className="spanLG"> 1</span>, lwd =<span className="spanLG"> 1</span><span className="spanY">)</span></div>
-                        <div>par<span className="spanY">(</span>xpd = <span className="spanB">TRUE</span><span className="spanY">)</span></div>
-                        <div className="indent">legend = c<span className="spanP">(</span><span className="spanO">&quot;Treatment&quot;</span>,<span className="spanO"> &quot;Control&quot;</span><span className="spanP">)</span>, fill = treatment_colors<span className="spanY">)</span></div> {/* <--- FIXED: Quotes escaped */}
+                        <div>ggsave("plots/01_block-randomization.png", width = 8, height = 4, dpi = 400)</div>
+                        <div>ggsave("plots/01_block-randomization.svg", width = 8, height = 4, dpi = 400)</div>
                         <br></br>
                     </div>
                     {/* --- End R Code Simulation --- */}

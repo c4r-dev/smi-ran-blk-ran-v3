@@ -55,6 +55,18 @@ body {
   text-indent: 40px;
 }
 
+.indent2 {
+  text-indent: 80px;
+}
+
+.indent3 {
+  text-indent: 120px;
+}
+
+.indent4 {
+  text-indent: 160px;
+}
+
 .block {
   background-color: white;
   font-family: sans-serif, Menlo, Monaco, 'Courier New', monospace;
