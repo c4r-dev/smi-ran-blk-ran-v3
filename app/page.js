@@ -7,7 +7,7 @@ import Legend from "./components/Legend"; // Adjusted import path
 export default function Randomize1Page() {
     const router = useRouter();
     const [randomization, setRandomization] = useState([]);
-    let numBlocks = 5;
+    let numBlocks = 30;
     let blockSize = 5;
     let numTreatments = 2;
 
@@ -83,87 +83,88 @@ export default function Randomize1Page() {
 
     return (
         // --- Main container centers content and handles layout ---
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
-            <div className="top" style={{ width: '80%', marginBottom: '20px' }}> {/* Added width and margin */}
-                <h2>
+        <div className="randomize-1-container"> {/* Use class from globals.css */}
+            <div className="top"> {/* top class now handles width/centering */}
+                <h3> {/* Changed from h4 for semantic consistency */}
                     Run the code to block randomize, then edit your parameters.
-                </h2>
+                </h3>
             </div>
 
-            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Code Container - Centered via globals.css */}
+            {/* Removed inline styles */}
+            <div className="code-container">
+                <div className="code">
+                    {/* --- R Code Simulation JSX from original randomize1.js --- */}
+                    <div><br></br></div>
+                    <div><span className="spanG"># Install required packages</span></div>
+                    <div>installed.packages<span className="spanY">(</span><span className="spanO">&quot;blockrand&quot;, &quot;tidyverse&quot;</span><span className="spanY">)</span></div>
 
-                {/* Code Container */}
-                <div className="code-container" style={{ width: '80%', marginBottom: '20px' }}> {/* Added width and margin */}
-                    <div className="code">
-                        {/* --- R Code Simulation JSX from original randomize1.js --- */}
-                        <div><br></br></div>
-                        <div><span className="spanG"># Install required packages</span></div>
-                        <div>installed.packages<span className="spanY">(</span><span className="spanO">&quot;blockrand&quot;, &quot;tidyverse&quot;</span><span className="spanY">)</span></div>
+                    <div><br></br></div>
+                    <div><span className="spanG"># Load required packages</span></div>
+                    <div>library<span className="spanY">(</span>blockrand<span className="spanY">)</span></div>
+                    <div>library<span className="spanY">(</span>tidyverse<span className="spanY">)</span></div>
 
-                        <div><br></br></div>
-                        <div><span className="spanG"># Load required packages</span></div>
-                        <div>library<span className="spanY">(</span>blockrand<span className="spanY">)</span></div>
-                        <div>library<span className="spanY">(</span>tidyverse<span className="spanY">)</span></div>
+                    <div><br></br></div>
+                    <div><span className="spanG"># Create block randomization allocation sequence using blockrand package</span></div>
+                    <div>block_rand &lt;- blockrand(n = 30, <span className="spanG"># target number of samples</span></div>
+                    <div className="indent">num.levels = 2, <span className="spanG"># number of treatment arms</span></div>
+                    <div className="indent">levels = c(&quot;Treatment&quot;, &quot;Control&quot;), <span className="spanG"># arm names</span></div>
+                    <div className="indent">block.sizes = c(5), <span className="spanG"># times arms for fixed block</span></div>
+                    <div className="indent">block.prefix = &quot;Block&quot;) <span className="spanG"># block names</span></div>
 
-                        <div><br></br></div>
-                        <div><span className="spanG"># Create block randomization allocation sequence using blockrand package</span></div>
-                        <div>block_rand &lt;- blockrand(n = 30, <span className="spanG"># target number of samples</span></div>
-                        <div className="indent">num.levels = 2, <span className="spanG"># number of treatment arms</span></div>
-                        <div className="indent">levels = c(&quot;Treatment&quot;, &quot;Control&quot;), <span className="spanG"># arm names</span></div>
-                        <div className="indent">block.sizes = c(5), <span className="spanG"># times arms for fixed block</span></div>
-                        <div className="indent">block.prefix = &quot;Block&quot;) <span className="spanG"># block names</span></div>
+                    <div><br></br></div>
+                    <div><span className="spanG"># Add sequential position within each block</span></div>
+                    <div>block_rand &lt;- block_rand %&gt;%</div>
+                    <div className="indent">group_by(block.id) %&gt;%</div>
+                    <div className="indent">mutate(position_in_block = row_number()) %&gt;%</div>
+                    <div className="indent">ungroup()</div>
 
-                        <div><br></br></div>
-                        <div><span className="spanG"># Add sequential position within each block</span></div>
-                        <div>block_rand &lt;- block_rand %&gt;%</div>
-                        <div className="indent">group_by(block.id) %&gt;%</div>
-                        <div className="indent">mutate(position_in_block = row_number()) %&gt;%</div>
-                        <div className="indent">ungroup()</div>
+                    <div><br></br></div>
+                    <div><span className="spanG"># Create visualization of the block randomization</span></div>
+                    <div>ggplot(block_rand, aes(x = position_in_block, y = factor(block.id, levels =</div>
+                    <div>rev(unique(block.id))))) +</div>
+                    <div className="indent">geom_tile(aes(fill = treatment), color = &apos;gray30&apos;, width = 0.9, height = 0.9) +</div>
+                    <div className="indent">geom_text(aes(label = id), color = &quot;black&quot;, size = 3) +</div>
+                    <div className="indent">scale_fill_brewer(palette = &quot;Set1&quot;, name = &quot;Treatment&quot;) +</div>
+                    <div className="indent">labs(title = &quot;Block randomization of samples by block&quot;</div>
+                    <div className="indent2">subtitle = paste(length(unique(block_rand$block.id)), &quot;blocks with&quot;,</div>
+                    <div className="indent4">unique(block_rand$block.size),</div>
+                    <div className="indent4">&quot;samples per block, randomized to&quot;,</div>
+                    <div className="indent4">length(unique(block_rand$treatment)), &quot;treatments)&quot;,</div>
+                    <div className="indent2">x = &quot;Treatment sequence&quot;, y = &quot;Block&quot;) +  # Removed x-axis label</div>
+                    <div className="indent">theme_minimal() +</div>
+                    <div className="indent">theme(</div>
+                    <div className="indent2">panel.grid = element_blank(),</div>
+                    <div className="indent2">axis.text.x = element_blank(),  # Remove x-axis text</div>
+                    <div className="indent2">axis.ticks.x = element_blank()  # Remove x-axis ticks</div>
+                    <div className="indent">)</div>
+                    <div><br></br></div>
+                    <div>ggsave(&quot;plots/01_block-randomization.png&quot;, width = 8, height = 4, dpi = 400)</div>
+                    <div>ggsave(&quot;plots/01_block-randomization.svg&quot;, width = 8, height = 4, dpi = 400)</div>
+                    <br></br>
+                    {/* --- End R Code Simulation --- */}
+                </div>
+            </div>
 
-                        <div><br></br></div>
-                        <div><span className="spanG"># Create visualization of the block randomization</span></div>
-                        <div>ggplot(block_rand, aes(x = position_in_block, y = factor(block.id, levels =</div>
-                        <div>rev(unique(block.id))))) +</div>
-                        <div className="indent">geom_tile(aes(fill = treatment), color = &apos;gray30&apos;, width = 0.9, height = 0.9) +</div>
-                        <div className="indent">geom_text(aes(label = id), color = &quot;black&quot;, size = 3) +</div>
-                        <div className="indent">scale_fill_brewer(palette = &quot;Set1&quot;, name = &quot;Treatment&quot;) +</div>
-                        <div className="indent">labs(title = &quot;Block randomization of samples by block&quot;</div>
-                        <div className="indent2">subtitle = paste(length(unique(block_rand$block.id)), &quot;blocks with&quot;,</div>
-                        <div className="indent4">unique(block_rand$block.size),</div>
-                        <div className="indent4">&quot;samples per block, randomized to&quot;,</div>
-                        <div className="indent4">length(unique(block_rand$treatment)), &quot;treatments)&quot;,</div>
-                        <div className="indent2">x = &quot;Treatment sequence&quot;, y = &quot;Block&quot;) +  # Removed x-axis label</div>
-                        <div className="indent">theme_minimal() +</div>
-                        <div className="indent">theme(</div>
-                        <div className="indent2">panel.grid = element_blank(),</div>
-                        <div className="indent2">axis.text.x = element_blank(),  # Remove x-axis text</div>
-                        <div className="indent2">axis.ticks.x = element_blank()  # Remove x-axis ticks</div>
-                        <div className="indent">)</div>
-                        <div><br></br></div>
-                        <div>ggsave(&quot;plots/01_block-randomization.png&quot;, width = 8, height = 4, dpi = 400)</div>
-                        <div>ggsave(&quot;plots/01_block-randomization.svg&quot;, width = 8, height = 4, dpi = 400)</div>
-                        <br></br>
-                        {/* --- End R Code Simulation --- */}
+            {/* Chart Container - Only displayed if randomization has data */}
+            {randomization.length > 0 && (
+                // Use class for centering via globals.css
+                <div className="chart-container">
+                    <div className="legend-container">
+                        <Legend />
+                    </div>
+                    {/* block-chart2 class handles sizing */}
+                    <div className="block-chart2">
+                        {/* Add key prop for mapped elements */}
+                        {randomization.map((item, index) => (
+                            <React.Fragment key={index}>
+                                {arrayOutput(item)}
+                            </React.Fragment>
+                        ))}
                     </div>
                 </div>
+            )}
 
-                {/* Chart Container - Only displayed if randomization has data */}
-                {randomization.length > 0 && (
-                    <div className="chart-container" style={{ width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}> {/* Added width, flex styles and margin */}
-                        <div className="legend-container" style={{ alignSelf: 'flex-start', marginBottom: '10px' }}> {/* Align legend left */}
-                            <Legend />
-                        </div>
-                        <div className="block-chart2" style={{ width: '100%', maxWidth: '500px' }}> {/* Ensure chart respects container width */}
-                            {/* Add key prop for mapped elements */}
-                            {randomization.map((item, index) => (
-                                <React.Fragment key={index}>
-                                    {arrayOutput(item)}
-                                </React.Fragment>
-                            ))}
-                        </div>
-                    </div>
-                )}
-            </div>
 
             {/* Buttons Container */}
             <div style={{ marginTop: '20px' }}> {/* Added margin top for spacing */}
