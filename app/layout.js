@@ -1,4 +1,5 @@
 import './globals.css'; // Import global styles
+import FaviconButton from "./components/FaviconButton";
 
 export const metadata = {
   title: 'Block Randomization App',
@@ -8,7 +9,26 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <head>
+        <link rel="icon" href="/favicon.ico" />
+      </head>
+      <body>
+        {/* Header */}
+        <header className="header">
+          {/* Using FaviconButton Client Component */}
+          <FaviconButton />
+
+          {/* Title container for responsive width */}
+          <div className="title-container">
+            <h1 className="title">
+              Which of these sequences was random?
+            </h1>
+          </div>
+        </header>
+
+        {/* Main Content */}
+        {children}
+      </body>
     </html>
   );
 }

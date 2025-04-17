@@ -1,7 +1,87 @@
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/GeneralSans/GeneralSans-Regular.woff2') format('woff2'),
+    url('/fonts/GeneralSans/GeneralSans-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'General Sans';
+  src: url('/fonts/GeneralSans/GeneralSans-Bold.woff2') format('woff2'),
+    url('/fonts/GeneralSans/GeneralSans-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'JetBrains Mono';
+  src: url('/fonts/JetBrainsMono-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  text-wrap: balance;
+}
+
 body {
   background-color: white;
   margin: 0;
   padding: 0;
+}
+
+/* Header Styling */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: left;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  height: 60px;
+}
+
+.favicon-button {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  box-shadow: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.favicon {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+  display: block;
+}
+
+.title-container {
+  flex-grow: 1;
+  max-width: 80%;
+}
+
+h1,
+.title {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+}
+
+
+h2 {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 80px;
+  padding: 0 10%;
 }
 
 .code {
@@ -16,10 +96,7 @@ body {
   @media (max-width: 768px) {
       font-size: 11px;
   }
-  /* Removed fixed width for .code element itself */
-  /* @media (min-width: 768px) { */
-      /* width: 50vw; */ /* Removed this */
-  /* } */
+  
 }
 
 .spanY {
@@ -214,8 +291,6 @@ body {
       flex-direction: column;
   }
 }
-
-
 
 .top {
   font-family: sans-serif, Menlo, Monaco, 'Courier New', monospace;
