@@ -82,9 +82,9 @@ export default function Randomize1Page() {
     };
 
     return (
-        // --- JSX structure from original randomize1.js ---
-        <div className="randomize-1-container">
-            <div className="top">
+        // --- Main container centers content and handles layout ---
+        <div className="randomize-1-container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
+            <div className="top" style={{ width: '80%', marginBottom: '20px' }}> {/* Added width and margin */}
                 <h2>Let&apos;s Visualize Block Randomization.</h2>
                 <h4>
                     Block randomization is as simple as hitting a button! Free
@@ -99,11 +99,13 @@ export default function Randomize1Page() {
                 </h4>
             </div>
 
-            <div className="container">
-                <div className="code-container">
-                    {/* --- R Code Simulation JSX from original randomize1.js --- */}
-                    <div className="code">
+            {/* Container for code and chart, arranged vertically */}
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
+                {/* Code Container */}
+                <div className="code-container" style={{ width: '80%', marginBottom: '20px' }}> {/* Added width and margin */}
+                    <div className="code">
+                        {/* --- R Code Simulation JSX from original randomize1.js --- */}
                         <div><br></br></div>
                         <div><span className="spanG"># Install required packages</span></div>
                         <div>installed.packages<span className="spanY">(</span><span className="spanO">&quot;blockrand&quot;, &quot;tidyverse&quot;</span><span className="spanY">)</span></div>
@@ -147,24 +149,21 @@ export default function Randomize1Page() {
                         <div className="indent2">axis.text.x = element_blank(),  # Remove x-axis text</div>
                         <div className="indent2">axis.ticks.x = element_blank()  # Remove x-axis ticks</div>
                         <div className="indent">)</div>
-
-
-
                         <div><br></br></div>
                         <div>ggsave(&quot;plots/01_block-randomization.png&quot;, width = 8, height = 4, dpi = 400)</div>
                         <div>ggsave(&quot;plots/01_block-randomization.svg&quot;, width = 8, height = 4, dpi = 400)</div>
                         <br></br>
+                        {/* --- End R Code Simulation --- */}
                     </div>
-                    {/* --- End R Code Simulation --- */}
                 </div>
 
-                {/* If randomization array is not empty, display the legend and block chart */}
+                {/* Chart Container - Only displayed if randomization has data */}
                 {randomization.length > 0 && (
-                    <div className="chart-container">
-                        <div className="legend-container">
+                    <div className="chart-container" style={{ width: '80%', display: 'flex', flexDirection: 'column', alignItems: 'center', marginBottom: '20px' }}> {/* Added width, flex styles and margin */}
+                         <div className="legend-container" style={{alignSelf: 'flex-start', marginBottom: '10px'}}> {/* Align legend left */}
                             <Legend />
                         </div>
-                        <div className="block-chart2">
+                        <div className="block-chart2" style={{ width: '100%', maxWidth: '500px' }}> {/* Ensure chart respects container width */}
                             {/* Add key prop for mapped elements */}
                             {randomization.map((item, index) => (
                                 <React.Fragment key={index}>
@@ -175,7 +174,9 @@ export default function Randomize1Page() {
                     </div>
                 )}
             </div>
-            <div>
+
+            {/* Buttons Container */}
+            <div style={{ marginTop: '20px' }}> {/* Added margin top for spacing */}
                 <input
                     className="button"
                     type="button"
