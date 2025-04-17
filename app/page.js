@@ -117,9 +117,9 @@ export default function Randomize1Page() {
                         <div><span className="spanG"># Create block randomization allocation sequence using blockrand package</span></div>
                         <div>block_rand &lt;- blockrand(n = 30, <span className="spanG"># target number of samples</span></div>
                         <div className="indent">num.levels = 2, <span className="spanG"># number of treatment arms</span></div>
-                        <div className="indent">levels = c("Treatment", "Control"), <span className="spanG"># arm names</span></div>
+                        <div className="indent">levels = c(&quot;Treatment&quot;, &quot;Control&quot;), <span className="spanG"># arm names</span></div>
                         <div className="indent">block.sizes = c(5), <span className="spanG"># times arms for fixed block</span></div>
-                        <div className="indent">block.prefix = "Block ") <span className="spanG"># block names</span></div>
+                        <div className="indent">block.prefix = &quot;Block&quot;) <span className="spanG"># block names</span></div>
 
                         <div><br></br></div>
                         <div><span className="spanG"># Add sequential position within each block</span></div>
@@ -132,15 +132,15 @@ export default function Randomize1Page() {
                         <div><span className="spanG"># Create visualization of the block randomization</span></div>
                         <div>ggplot(block_rand, aes(x = position_in_block, y = factor(block.id, levels =</div>
                         <div>rev(unique(block.id))))) +</div>
-                        <div className="indent">geom_tile(aes(fill = treatment), color = 'gray30', width = 0.9, height = 0.9) +</div>
-                        <div className="indent">geom_text(aes(label = id), color = "black", size = 3) +</div>
-                        <div className="indent">scale_fill_brewer(palette = "Set1", name = "Treatment") +</div>
-                        <div className="indent">labs(title = "Block randomization of samples by block"</div>
-                        <div className="indent2">subtitle = paste(length(unique(block_rand$block.id)), "blocks with",</div>
+                        <div className="indent">geom_tile(aes(fill = treatment), color = &apos;gray30&apos;, width = 0.9, height = 0.9) +</div>
+                        <div className="indent">geom_text(aes(label = id), color = &quot;black&quot;, size = 3) +</div>
+                        <div className="indent">scale_fill_brewer(palette = &quot;Set1&quot;, name = &quot;Treatment&quot;) +</div>
+                        <div className="indent">labs(title = &quot;Block randomization of samples by block&quot;</div>
+                        <div className="indent2">subtitle = paste(length(unique(block_rand$block.id)), &quot;blocks with&quot;,</div>
                         <div className="indent4">unique(block_rand$block.size),</div>
-                        <div className="indent4">"samples per block, randomized to",</div>
-                        <div className="indent4">length(unique(block_rand$treatment)), "treatments"),</div>
-                        <div className="indent2">x = "Treatment sequence", y = "Block") +  # Removed x-axis label</div>
+                        <div className="indent4">&quot;samples per block, randomized to&quot;,</div>
+                        <div className="indent4">length(unique(block_rand$treatment)), &quot;treatments)&quot;,</div>
+                        <div className="indent2">x = &quot;Treatment sequence&quot;, y = &quot;Block&quot;) +  # Removed x-axis label</div>
                         <div className="indent">theme_minimal() +</div>
                         <div className="indent">theme(</div>
                         <div className="indent2">panel.grid = element_blank(),</div>
@@ -151,8 +151,8 @@ export default function Randomize1Page() {
 
 
                         <div><br></br></div>
-                        <div>ggsave("plots/01_block-randomization.png", width = 8, height = 4, dpi = 400)</div>
-                        <div>ggsave("plots/01_block-randomization.svg", width = 8, height = 4, dpi = 400)</div>
+                        <div>ggsave(&quot;plots/01_block-randomization.png&quot;, width = 8, height = 4, dpi = 400)</div>
+                        <div>ggsave(&quot;plots/01_block-randomization.svg&quot;, width = 8, height = 4, dpi = 400)</div>
                         <br></br>
                     </div>
                     {/* --- End R Code Simulation --- */}
