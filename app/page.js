@@ -85,9 +85,9 @@ export default function Randomize1Page() {
         // --- Main container centers content and handles layout ---
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%' }}>
             <div className="top" style={{ width: '80%', marginBottom: '20px' }}> {/* Added width and margin */}
-                <h4>
+                <h2>
                     Run the code to block randomize, then edit your parameters.
-                </h4>
+                </h2>
             </div>
 
             <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
