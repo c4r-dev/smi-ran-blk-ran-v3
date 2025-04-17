@@ -444,3 +444,11 @@ h2 {
 .indentLarge {
   text-indent: 244px;
 }
+
+/* New rule for centering button containers */
+.button-container-centered {
+  text-align: center; /* Center the button within the div */
+  width: 100%; /* Ensure the container takes full width */
+  margin-top: 20px; /* Add some space above the button */
+  margin-bottom: 20px; /* Add some space below the button */
+}

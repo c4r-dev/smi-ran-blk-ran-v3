@@ -85,9 +85,9 @@ export default function Randomize1Page() {
         // --- Main container centers content and handles layout ---
         <div className="randomize-1-container"> {/* Use class from globals.css */}
             <div className="top"> {/* top class now handles width/centering */}
-                <h3> {/* Changed from h4 for semantic consistency */}
+                <h2> {/* Changed from h4 for semantic consistency */}
                     Run the code to block randomize, then edit your parameters.
-                </h3>
+                </h2>
             </div>
 
             {/* Code Container - Centered via globals.css */}
@@ -145,6 +145,10 @@ export default function Randomize1Page() {
                     {/* --- End R Code Simulation --- */}
                 </div>
             </div>
+            {/* Centered RUN Button */}
+            <div className="button-container-centered">
+                <input className="button" type="button" onClick={submitRunClick} value="RUN CODE" />
+            </div>
 
             {/* Chart Container - Only displayed if randomization has data */}
             {randomization.length > 0 && (
@@ -162,29 +166,16 @@ export default function Randomize1Page() {
                             </React.Fragment>
                         ))}
                     </div>
+                {/* Centered CONTINUE Button */}
+                <div className="button-container-centered">
+                    <input className="button" type="button" onClick={submitContinueClick} value="CONTINUE ACTIVITY" />
+                </div>
                 </div>
             )}
 
 
             {/* Buttons Container */}
-            <div style={{ marginTop: '20px' }}> {/* Added margin top for spacing */}
-                <input
-                    className="button"
-                    type="button"
-                    onClick={submitRunClick}
-                    value="RUN CODE"
-                />
-                <input
-                    className="button"
-                    type="button"
-                    onClick={submitContinueClick}
-                    value="CONTINUE ACTIVITY"
-                />
-                <br></br>
-                <br></br>
-                <br></br>
-                <br></br>
-            </div>
+            {/* Removed original button div */}
         </div>
     );
 }
