@@ -1,3 +1,6 @@
+/* File: app/globals.css */
+/* Includes responsiveness updates & y-axis label styles */
+
 @font-face {
   font-family: 'General Sans';
   src: url('/fonts/GeneralSans/GeneralSans-Regular.woff2') format('woff2'),
@@ -80,7 +83,6 @@ body {
 h1,
 .title {
   font-size: clamp(1.2rem, 3vw, 1.8rem);
-  /* font-family is inherited from body */
 }
 
 
@@ -88,367 +90,243 @@ h2 {
   font-size: 1.2rem;
   font-weight: bold;
   text-align: center;
-  /* margin-top: 80px; remove this if padding-top on body is used */
   padding: 0 10%;
 }
 
+/* Code block styling */
 .code {
-  font-family: Menlo, Monaco, 'Courier New', monospace; /* Specific font for code blocks */
+  font-family: Menlo, Monaco, 'Courier New', monospace;
   font-size: 15px;
   font-weight: normal;
   color: white;
   padding: 10px;
   background-color: black;
-  width: 100%; /* Make code block fill its container */
-  /* Mobile device */
+  width: 100%;
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+
   @media (max-width: 768px) {
-      font-size: 11px;
+      font-size: 11px; /* Smaller font on mobile */
   }
-
 }
 
-.spanY {
-  color: yellow;
-}
+/* R Code Simulation Span Colors */
+.spanY { color: yellow; }
+.spanG { color: rgb(31, 172, 31); }
+.spanO { color: rgb(196, 140, 36); }
+.spanB { color: rgb(104, 128, 198); }
+.spanP { color: magenta; }
+.spanLG { color: rgb(199, 235, 199); }
+.spanLB { color: rgb(83, 174, 239); }
 
-.spanG {
-  color: rgb(31, 172, 31);
-}
+/* R Code Simulation Indentation */
+.indent { text-indent: 40px; }
+.indent2 { text-indent: 80px; }
+.indent3 { text-indent: 120px; }
+.indent4 { text-indent: 160px; }
 
-.spanO {
-  color: rgb(196, 140, 36);
-}
-
-.spanB {
-  color:rgb(104, 128, 198);
-}
-
-.spanP {
-  color: magenta;
-}
-
-.spanLG {
-  color:rgb(199, 235, 199);
-}
-
-.spanLB {
-  color: rgb(83, 174, 239)
-}
-
-.indent {
-  text-indent: 40px;
-}
-
-.indent2 {
-  text-indent: 80px;
-}
-
-.indent3 {
-  text-indent: 120px;
-}
-
-.indent4 {
-  text-indent: 160px;
-}
-
-/* Styles for .block, .treat, .ments, etc. inherit font from body */
-.block {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  transform: rotate(270deg);
-  align-items: center;
-  color: black;
-  font-size: 1.2em
-}
-
-.treat {
-  background-color: white;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  color: black;
-  font-size: 1.2em;
-}
-
-.ments {
-  background-color: white;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  color: black;
-  font-size: 1.2em;
-}
-
-.treatment {
-  background-color: white;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  text-indent: 5px;
-  color: black;
-  font-size: 1.2em;
-}
-
-.Blo {
-  background-color: white;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  color: black;
-  font-size: 1.2em;
-}
-
-.ck {
-  background-color: white;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  /* text-indent: 5px; */
-  color: black;
-  font-size: 1.2em;
-}
-.order {
-  background-color: white;
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  text-indent: 5px;
-  color: black;
-  font-size: 1.2em;
-}
-
-.block0 {
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: black;
-  font-size: 1.2em;
-}
-
-.block1 {
-  background-color: black;
-  border: 1px solid red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 1.2em;
-}
-
-.block2 {
-  background-color: rgb(235, 235, 152);
-  border: 1px solid red;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 1.2em;
-}
-.block3 {
-  background-color: rgb(239, 204, 239);
+/* Block square styles */
+.block1, .block2 {
   border: 1px solid #333;
   display: flex;
   justify-content: center;
   align-items: center;
   color: white;
-  font-size: 1.2em;
-}
-.block4 {
-  background-color: rgb(196, 127, 196);
-  border: 1px solid #333;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-size: 1.2em;
+  font-weight: bold;
+  box-sizing: border-box;
+  padding: 5px;
+  aspect-ratio: 1/1; /* Keep squares */
+  /* Default size for larger screens */
+  min-width: 50px;
+  min-height: 50px;
+  font-size: 1.1em;
+  width: 100%; /* Make square fill grid cell width */
+  height: auto; /* Height adjusts based on aspect-ratio */
 }
 
-.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly; /* Optional: space between items */
-  align-items: flex-start; /* Align items vertically center */
-  width: 100%; /* Container takes full width */
-  /* height: 500px; */
-  /* border: 1px solid #ccc; */
+.block1 { /* Treatment - Blue */
+  background-color: blue;
+}
 
-  /* Mobile device */
-  @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: center; /* Center items vertically on mobile */
+.block2 { /* Control - Red */
+  background-color: red;
+}
+
+/* Responsive adjustments for block squares */
+@media (max-width: 768px) {
+  .block1, .block2 {
+    /* min-width: 40px; /* Let width be controlled by grid */
+    /* min-height: 40px; */
+    font-size: 0.9em; /* Smaller font */
+  }
+}
+@media (max-width: 480px) { /* Even smaller screens */
+  .block1, .block2 {
+    /* min-width: 30px; */
+    /* min-height: 30px; */
+    font-size: 0.7em;
   }
 }
 
-.randomize-2-body-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly; /* Optional: space between items */
-  align-items: flex-start; /* Align items vertically center */
-  width: 100%; /* Container takes full width */
-  padding: 0 10px; /* Add padding */
 
-  /* Mobile device */
-  @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: center; /* Center items vertically on mobile */
-  }
-}
-
-/* .top elements will now inherit General Sans from body */
-.top {
-  /* font-family: sans-serif, Menlo, Monaco, 'Courier New', monospace; <- Remove this line */
-  display: flex;
-  flex-direction: column;
-  gap: 0px;
-  width: 80%; /* Match code container width */
-  margin: 0 auto 20px auto; /* Center and add bottom margin */
-  text-align: center; /* Center text */
-
-  h3 { /* Target h3 directly */
-      margin-bottom: 0.8em;
-      margin-top: 0.1em;
-      font-size: 1rem; /* Adjust size if needed */
-  }
-
-  /* Mobile device */
-  @media (max-width: 768px) {
-      width: 95%; /* Use more width on mobile */
-      h3 {
-          margin-bottom: 0.4em;
-          margin-top: 0.4em;
-      }
-  }
-}
-
-.randomize-1-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  /* Adjusted height to allow content flow */
-  min-height: calc(100vh - 60px); /* Adjust min-height based on body padding */
-  margin: 0;
-  padding: 0;
-  width: 100%; /* Ensure it takes full width */
-}
+/* General Layout Containers */
+.randomize-1-container,
 .randomize-2-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  /* Adjusted height to allow content flow */
-  min-height: calc(100vh - 60px); /* Adjust min-height based on body padding */
+  min-height: calc(100vh - 60px);
   margin: 0;
-  padding: 0;
-  width: 100%; /* Ensure it takes full width */
+  padding: 0 5px; /* Add some horizontal padding */
+  width: 100%;
 }
 
-.code-container {
-  color: black;
-  display: flex; /* Keeps flex behavior if needed for internal alignment */
-  /* align-items: flex-start; */ /* Removed: Let content flow naturally */
-  /* justify-content: left; */ /* Removed */
-  width: 80%; /* Set desired width */
-  margin: 20px auto; /* Center the container (top/bottom margin 20px, left/right auto) */
+.top { /* Styling for text above code/chart */
+  display: flex;
+  flex-direction: column;
+  gap: 0px;
+  width: 90%; /* Slightly wider */
+  max-width: 800px; /* Add max-width */
+  margin: 10px auto 15px auto; /* Adjust margins */
+  text-align: center;
 
-  /* Mobile device */
+  h2 {
+    margin-bottom: 0.5em;
+    margin-top: 0.1em;
+    font-size: 1.1rem; /* Slightly smaller heading */
+    padding: 0 2%;
+  }
+
   @media (max-width: 768px) {
-     width: 95%; /* Use more width on mobile */
-     margin: 10px auto; /* Adjust margin */
+      width: 95%;
+      h2 {
+          font-size: 1.0rem;
+      }
   }
 }
 
-.chart-container {
+/* Container for illustrative R code */
+.code-container {
   color: black;
   display: flex;
-  flex-direction: column; /* Stack legend and chart */
-  align-items: center; /* Center items horizontally */
-  /* justify-content: flex-start; Remove this */
-  margin: 10px;
-  width: 80%; /* Match code container */
-  max-width: 500px; /* Keep max-width for chart */
-  margin: 20px auto; /* Center container */
+  width: 90%; /* Slightly wider */
+  max-width: 800px; /* Add max-width */
+  margin: 15px auto;
 
-
-  /* Mobile device */
   @media (max-width: 768px) {
-     width: 95%; /* Use more width on mobile */
+     width: 95%;
      margin: 10px auto;
   }
 }
 
-.chartTitle {
-  /* font-family: sans-serif, Menlo, Monaco, 'Courier New', monospace; <- Remove this line */
-  text-align: center;
-  margin-bottom: 10px;
-  font-size: 1.7em;
-}
+/* Container for the Legend and Block Grid */
+.chart-container {
+  color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px auto; /* Center horizontally */
+  width: 95%; /* Use more width */
+  max-width: 900px; /* Limit max width */
 
-.block-chart2 {
-  display: grid;
-  /* grid-template-columns: repeat(6, 1fr); */
-  grid-template-columns: repeat(2, 1fr);
-  /* grid-template-rows: repeat(10, 1fr);  */
-  /* width: 500px; Removed fixed width */
-  /* height: 500px; Removed fixed height */
-  width: 100%; /* Take full width of parent */
-  max-width: 500px; /* Limit max width */
-  aspect-ratio: 1/1; /* Maintain square aspect ratio */
-  margin: 0 auto; /* Center within chart-container if needed */
-
-
-  /* Mobile device */
   @media (max-width: 768px) {
-      max-width: 300px; /* Adjust max width for mobile */
+     width: 98%; /* Use even more width on mobile */
+     margin: 10px auto;
   }
 }
 
+/* Style for the grid containing the labels and block squares */
+.block-grid-chart {
+  display: grid;
+  /* Define columns: 1 for label (auto width), rest for blocks (variable count) */
+  /* CSS variable --num-columns is set via inline style in page.js */
+  grid-template-columns: auto repeat(var(--num-columns, 10), 1fr);
+  gap: 8px; /* Default gap */
+  align-items: center; /* Align items vertically in rows */
+  width: 100%; /* Takes width of chart-container */
+  margin: 15px auto;
+  padding: 5px;
+
+  /* Responsive adjustments for grid columns */
+  @media (max-width: 768px) {
+      /* Adjust column count for smaller screens */
+      grid-template-columns: auto repeat(5, 1fr); /* Example: 5 blocks + label */
+      gap: 5px;
+  }
+   @media (max-width: 480px) { /* Even smaller screens */
+      /* Further reduce columns */
+      grid-template-columns: auto repeat(4, 1fr); /* Example: 4 blocks + label */
+      gap: 4px;
+  }
+}
+
+/* NEW Style for Y-Axis Labels */
+.y-axis-label {
+  font-weight: bold;
+  font-size: 0.9em;
+  text-align: right;
+  padding-right: 10px; /* Space between label and first block */
+  white-space: nowrap; /* Prevent wrapping */
+  color: #333; /* Adjust color as needed */
+}
+@media (max-width: 480px) { /* Even smaller screens */
+  .y-axis-label {
+      font-size: 0.8em;
+      padding-right: 5px;
+  }
+}
+
+
+/* Input field on randomize2 page */
 .custom-input {
   width: 16px;
 }
 
+/* Button styles */
 .button {
-  margin-left: 20px;
-  /* Font inherited from body */
-  padding: 8px 15px; /* Example padding */
-  cursor: pointer; /* Add cursor pointer */
+  margin: 5px 10px; /* Adjust margin */
+  padding: 8px 15px;
+  cursor: pointer;
+}
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
 }
 
+/* Final page styles */
 .finalPage {
   width: 100%;
-  height: calc(100vh - 60px); /* Adjust height */
-  background-image: url('/confetti-full.svg'); /* Path to your SVG file */
-  background-size: cover; /* Scale the background to cover the container */
-  background-repeat: no-repeat; /* Prevent the background from repeating */
-  background-position: center; /* Center the background image */
-  display: flex; /* Use flexbox for centering */
-  justify-content: center; /* Center horizontally */
-  align-items: center; /* Center vertically */
+  height: calc(100vh - 60px);
+  background-image: url('/confetti-full.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .finalPageCenter {
   color: black;
   text-align: center;
-  /* font-family: Menlo, Monaco, 'Courier New', monospace; <- Remove this */
 }
 
-
+/* Legend container */
 .legend-container {
-  margin-bottom: 10px; /* Add space below legend */
-  align-self: center; /* Center legend within chart container */
-  /* Font inherited from body */
+  margin-bottom: 10px;
+  align-self: center; /* Keep legend centered */
+  width: 100%; /* Allow legend frame to take width */
 }
 
+/* Specific indent for randomize2 page */
 .indentLarge {
   text-indent: 244px;
 }
 
-/* New rule for centering button containers */
+/* Container for centering buttons */
 .button-container-centered {
-  text-align: center; /* Center the button within the div */
-  width: 100%; /* Ensure the container takes full width */
-  margin-top: 20px; /* Add some space above the button */
-  margin-bottom: 20px; /* Add some space below the button */
+  text-align: center;
+  width: 100%;
+  margin-top: 15px; /* Adjust spacing */
+  margin-bottom: 15px;
 }
