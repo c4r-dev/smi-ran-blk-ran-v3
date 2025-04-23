@@ -282,16 +282,51 @@ h2 {
   width: 16px;
 }
 
-/* Button styles */
+/* --- Button styles --- */
 .button {
   margin: 5px 10px; /* Adjust margin */
   padding: 8px 15px;
   cursor: pointer;
+  border: 1px solid #CCC; /* Added border for visibility */
+  transition: background-color 0.2s ease; /* Smooth transition */
 }
 .button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }
+
+/* RUN CODE Button Specific Styles */
+.run-button {
+    background-color: #020202; /* Initial color */
+    color: white; /* Text color */
+}
+
+.run-button:hover {
+    background-color: #6F00FF; /* Hover color */
+}
+
+/* Style for when the run button has been clicked (using added class) */
+.run-button.run-clicked {
+    background-color: #333132; /* Clicked color */
+}
+
+.run-button.run-clicked:hover {
+    background-color: #020202; /* Clicked hover color */
+}
+
+
+/* CONTINUE ACTIVITY Button Specific Styles */
+.continue-button {
+    background-color: #020202; /* Initial color */
+    color: white; /* Text color */
+}
+
+.continue-button:hover {
+    background-color: #6F00FF; /* Hover color */
+}
+
+/* --- End Button Styles --- */
+
 
 /* Final page styles */
 .finalPage {
@@ -329,4 +364,11 @@ h2 {
   width: 100%;
   margin-top: 15px; /* Adjust spacing */
   margin-bottom: 15px;
+}
+
+/* Empty cell for grid (if needed) */
+.empty-cell {
+    /* Style if you need empty cells to appear differently */
+    background-color: transparent;
+    border: none;
 }

@@ -20,6 +20,8 @@ export default function Randomize1Page() {
     const [numRows, setNumRows] = useState(0); // Store number of rows
     // State to store the specific validation error message
     const [validationError, setValidationError] = useState("");
+    // State to track if the RUN CODE button has been clicked
+    const [runCodeClicked, setRunCodeClicked] = useState(false); // Added state for click tracking
 
     // Validate parameters once on mount based on BOTH rules
     useEffect(() => {
@@ -106,7 +108,8 @@ export default function Randomize1Page() {
     };
 
     const submitRunClick = () => {
-        setRandomization([]);
+        setRandomization([]); // Clear previous results
+        setRunCodeClicked(true); // Set clicked state to true
         if (numBlockColumns > 0) {
             const result = createBalancedBlockAssignments(numBlocks, numTreatments);
             setRandomization(result);
@@ -211,7 +214,12 @@ export default function Randomize1Page() {
 
              {/* Centered RUN Button */}
              <div className="button-container-centered">
-                <input className="button" type="button" onClick={submitRunClick} value="RUN CODE" />
+                {/* Added run-button class and conditional clicked class */}
+                <input
+                    className={`button run-button ${runCodeClicked ? 'run-clicked' : ''}`}
+                    type="button"
+                    onClick={submitRunClick}
+                    value="RUN CODE" />
             </div>
 
             {/* Chart Container - Displays the new block assignment grid */}
@@ -228,7 +236,12 @@ export default function Randomize1Page() {
                     </div>
                      {/* Centered CONTINUE Button */}
                     <div className="button-container-centered">
-                        <input className="button" type="button" onClick={submitContinueClick} value="CONTINUE ACTIVITY" />
+                        {/* Added continue-button class */}
+                        <input
+                            className="button continue-button"
+                            type="button"
+                            onClick={submitContinueClick}
+                            value="CONTINUE ACTIVITY" />
                     </div>
                 </div>
             )}
