@@ -1,4 +1,4 @@
-// File: app/page.js
+// File: app/randomize2/page.js
 "use client"; // Needed for useState and useRouter
 
 import React, { useState, useEffect } from "react"; // Import useEffect
@@ -7,62 +7,78 @@ import Legend from "../components/Legend"; // Adjusted import path
 
 export default function Randomize2Page() {
     const router = useRouter();
-    // State holds balanced block assignments: [{ number: 1, type: 'Control' }, ...]
     const [randomization, setRandomization] = useState([]);
-    // Fixed parameters for this page
-    const numBlocks = 30;
-    const blockSize = 5; // Used for grid layout calculation
-    const numTreatments = 2; // Assuming 2 treatments: Treatment and Control
 
-    // State signals if parameters are valid for graph generation (based on BOTH rules)
-    // and stores the number of columns needed if valid.
+    // --- State Variables for User Input ---
+    const [numBlocks, setNumBlocks] = useState(30); // Default value 30
+    const [blockSize, setBlockSize] = useState(5);   // Default value 5
+    const [numTreatments, setNumTreatments] = useState(2); // Default value 2
+    // --- End State Variables ---
+
     const [numBlockColumns, setNumBlockColumns] = useState(0);
-    const [numRows, setNumRows] = useState(0); // Store number of rows
-    // State to store the specific validation error message
+    const [numRows, setNumRows] = useState(0);
     const [validationError, setValidationError] = useState("");
-    // State to track if the RUN CODE button has been clicked
-    const [runCodeClicked, setRunCodeClicked] = useState(false); // Added state for click tracking
+    const [runCodeClicked, setRunCodeClicked] = useState(false);
 
-    // Validate parameters once on mount based on BOTH rules
+    // --- Validation Effect ---
+    // Now depends on the state variables numBlocks, blockSize, numTreatments
     useEffect(() => {
-        const product = blockSize * numTreatments;
+        // Ensure inputs are numbers before validation
+        const currentNumBlocks = Number(numBlocks);
+        const currentBlockSize = Number(blockSize);
+        const currentNumTreatments = Number(numTreatments);
+
+        // Basic input validation (ensure they are positive integers)
+        if (isNaN(currentNumBlocks) || currentNumBlocks <= 0 || !Number.isInteger(currentNumBlocks) ||
+            isNaN(currentBlockSize) || currentBlockSize <= 0 || !Number.isInteger(currentBlockSize) ||
+            isNaN(currentNumTreatments) || currentNumTreatments <= 0 || !Number.isInteger(currentNumTreatments)) {
+            setValidationError("Please enter valid positive integers for all parameters.");
+            setNumBlockColumns(0);
+            setNumRows(0);
+            setRandomization([]); // Clear results on invalid input type
+            return; // Stop validation if inputs are not valid numbers
+        }
+
+
+        const product = currentBlockSize * currentNumTreatments;
         let isValid = true;
         let errorMsg = "";
         let calculatedRows = 0;
         let calculatedColumns = 0;
 
         // Rule 1: numBlocks divisibility by numTreatments
-        if (numBlocks % numTreatments !== 0) {
-            errorMsg = `Balanced assignment requires numBlocks (${numBlocks}) to be perfectly divisible by numTreatments (${numTreatments}).`;
+        if (currentNumBlocks % currentNumTreatments !== 0) {
+            errorMsg = `Balanced assignment requires numBlocks (<span class="math-inline">\{currentNumBlocks\}\) to be perfectly divisible by numTreatments \(</span>{currentNumTreatments}).`;
             console.error(errorMsg);
             isValid = false;
         }
 
         // Rule 2: numBlocks divisibility by product (for grid layout)
-        if (isValid && (numBlocks % product !== 0)) {
-            errorMsg = `Grid layout requires numBlocks (${numBlocks}) to be perfectly divisible by (blockSize * numTreatments = ${product}).`;
+        if (isValid && (currentNumBlocks % product !== 0)) {
+            errorMsg = `Grid layout requires numBlocks (${currentNumBlocks}) to be perfectly divisible by (blockSize * numTreatments = ${product}).`;
             console.error(errorMsg);
             isValid = false;
         }
 
         // Set state based on validation result
         if (isValid) {
-            calculatedColumns = product; // Columns = blockSize * numTreatments
-            calculatedRows = numBlocks / calculatedColumns; // Rows = numBlocks / product
+            calculatedColumns = product;
+            calculatedRows = currentNumBlocks / calculatedColumns;
             setNumBlockColumns(calculatedColumns);
             setNumRows(calculatedRows);
-            setValidationError("");
+            setValidationError(""); // Clear error if valid
         } else {
             setNumBlockColumns(0);
             setNumRows(0);
             setValidationError(errorMsg);
+            setRandomization([]); // Clear results if validation fails
         }
 
-    }, []); // Empty dependency array
+    }, [numBlocks, blockSize, numTreatments]); // Re-run validation when these state variables change
+    // --- End Validation Effect ---
 
 
-    // --- Helper Functions (for JS calculation and graph) ---
-
+    // --- Helper Functions ---
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -71,20 +87,28 @@ export default function Randomize2Page() {
         return array;
     }
 
-    function createBalancedBlockAssignments(numBlocks, numTreatments) {
-        if (numBlockColumns === 0) {
+    // Uses state variables numBlocks and numTreatments
+    function createBalancedBlockAssignments() {
+       const currentNumBlocks = Number(numBlocks);
+       const currentNumTreatments = Number(numTreatments);
+
+        // Use the validation result stored in state
+        if (numBlockColumns === 0 || validationError) {
              console.error("Attempted to create block assignments when validation failed.");
              return [];
         }
-        if (numBlocks % numTreatments !== 0) { // Safeguard check
-            const internalErrorMsg = `Internal Error: numBlocks (${numBlocks}) is not divisible by numTreatments (${numTreatments}).`;
+        // Redundant check (already covered by useEffect validation), but safe
+        if (currentNumBlocks % currentNumTreatments !== 0) {
+            const internalErrorMsg = `Internal Error: numBlocks (<span class="math-inline">\{currentNumBlocks\}\) is not divisible by numTreatments \(</span>{currentNumTreatments}).`;
             console.error(internalErrorMsg);
-            setValidationError(internalErrorMsg);
+            // setValidationError(internalErrorMsg); // Already set by useEffect
             return [];
         }
 
-        const assignmentsPerType = numBlocks / numTreatments;
+        const assignmentsPerType = currentNumBlocks / currentNumTreatments;
         let typesToAssign = [];
+        // Assuming 2 treatments: Treatment and Control for simplicity here.
+        // You might need to adjust this if numTreatments can be > 2
         for (let i = 0; i < assignmentsPerType; i++) {
             typesToAssign.push("Treatment");
             typesToAssign.push("Control");
@@ -92,46 +116,44 @@ export default function Randomize2Page() {
         typesToAssign = shuffleArray(typesToAssign);
 
         let blockAssignments = [];
-        for (let i = 0; i < numBlocks; i++) {
+        for (let i = 0; i < currentNumBlocks; i++) {
             blockAssignments.push({ number: i + 1, type: typesToAssign[i] });
         }
-        setValidationError("");
+        // setValidationError(""); // Already handled by useEffect
         return blockAssignments;
     }
-
-    // Removed arrayOutput function
-
     // --- End Helper Functions ---
 
     const submitContinueClick = () => {
-        router.push("/randomize2");
+        // You might want to navigate to a different page or final step
+        router.push("/"); // Example: Navigate back to the first page or a results page
     };
 
     const submitRunClick = () => {
         setRandomization([]); // Clear previous results
         setRunCodeClicked(true); // Set clicked state to true
-        if (numBlockColumns > 0) {
-            const result = createBalancedBlockAssignments(numBlocks, numTreatments);
+
+        // Check validation state before running
+        if (numBlockColumns > 0 && !validationError) {
+            const result = createBalancedBlockAssignments(); // Now uses state implicitly
             setRandomization(result);
         } else {
+            // Validation failed, message is already set by useEffect
             console.log(`Submit clicked but validation failed: ${validationError}`);
-            setRandomization([]);
+            setRandomization([]); // Ensure results are cleared
         }
     };
 
     // --- Render Logic ---
-
-    // Helper to render the grid content including labels
     const renderGridContent = () => {
+       // Use calculated numRows and numBlockColumns from state
         const gridItems = [];
         for (let r = 0; r < numRows; r++) {
-            // Add Y-axis label for the row - CHANGED "Row" to "Block"
             gridItems.push(
                 <div key={`label-${r}`} className="y-axis-label">
-                    Block {r + 1} {/* Changed label text */}
+                    Block {r + 1}
                 </div>
             );
-            // Add block squares for the row
             for (let c = 0; c < numBlockColumns; c++) {
                 const blockIndex = r * numBlockColumns + c;
                 if (blockIndex < randomization.length) {
@@ -144,8 +166,7 @@ export default function Randomize2Page() {
                         </div>
                     );
                 } else {
-                    // Handle potential empty cells if data doesn't perfectly fill grid (shouldn't happen with validation)
-                    gridItems.push(<div key={`empty-${r}-${c}`} className="empty-cell"></div>);
+                    gridItems.push(<div key={`empty-<span class="math-inline">\{r\}\-</span>{c}`} className="empty-cell"></div>);
                 }
             }
         }
@@ -154,14 +175,15 @@ export default function Randomize2Page() {
 
 
     return (
-        <div className="randomize-1-container">
+        // Changed container class name for clarity
+        <div className="randomize-2-container">
             <div className="top">
                 <h2>
-                    Run the code to see the block randomization based on the parameters below.
+                    Update the parameters and run the code to see the new block randomization.
                 </h2>
             </div>
 
-            {/* Code Container - Displays ILLUSTRATIVE R code - UNCHANGED */}
+            {/* Code Container - Displays ILLUSTRATIVE R code with dynamic values */}
             <div className="code-container">
                  <div className="code">
                     {/* --- R Code Simulation --- */}
@@ -173,12 +195,50 @@ export default function Randomize2Page() {
                     <div>library<span className="spanY">(</span>blockrand<span className="spanY">)</span></div>
                     <div>library<span className="spanY">(</span>tidyverse<span className="spanY">)</span></div>
                     <div><br></br></div>
+                    <div><span className="spanG"># --- User Modifiable Parameters ---</span></div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom:'5px' }}>
+                       <label htmlFor="numBlocksInput" style={{color: 'lightgray', minWidth: '110px'}}>numBlocks:</label>
+                       <input
+                           id="numBlocksInput"
+                           type="number"
+                           value={numBlocks}
+                           onChange={(e) => setNumBlocks(e.target.value)}
+                           className="custom-input" // Add specific class if needed
+                           style={{width: '50px', color:'black', backgroundColor:'lightgray', border:'1px solid white'}} // Basic styling
+                       />
+                    </div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom:'5px' }}>
+                       <label htmlFor="blockSizeInput" style={{color: 'lightgray', minWidth: '110px'}}>blockSize:</label>
+                       <input
+                           id="blockSizeInput"
+                           type="number"
+                           value={blockSize}
+                           onChange={(e) => setBlockSize(e.target.value)}
+                            className="custom-input"
+                            style={{width: '50px', color:'black', backgroundColor:'lightgray', border:'1px solid white'}}
+                        />
+                     </div>
+                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom:'15px' }}>
+                       <label htmlFor="numTreatmentsInput" style={{color: 'lightgray', minWidth: '110px'}}>numTreatments:</label>
+                       <input
+                           id="numTreatmentsInput"
+                           type="number"
+                           value={numTreatments}
+                           onChange={(e) => setNumTreatments(e.target.value)}
+                           className="custom-input"
+                            style={{width: '50px', color:'black', backgroundColor:'lightgray', border:'1px solid white'}}
+                       />
+                     </div>
+                    <div><span className="spanG"># --- End User Modifiable Parameters ---</span></div>
+                    <div><br></br></div>
                     <div><span className="spanG"># Create block randomization allocation sequence using blockrand package</span></div>
-                    <div>block_rand &lt;- blockrand<span className="spanY">(</span>n = <span className="spanLG">30</span>, <span className="spanG"># target number (example value)</span></div>
-                    <div className="indent">num.levels = <span className="spanLG">2</span>, <span className="spanG"># number of treatment arms</span></div>
+                    {/* Dynamically display state values in the simulated code */}
+                    <div>block_rand &lt;- blockrand<span className="spanY">(</span>n = <span className="spanLG">{numBlocks}</span>, <span className="spanG"># target number (dynamic)</span></div>
+                    <div className="indent">num.levels = <span className="spanLG">{numTreatments}</span>, <span className="spanG"># number of treatment arms (dynamic)</span></div>
                     <div className="indent">levels = c<span className="spanP">(</span><span className="spanO">&quot;Treatment&quot;</span>, <span className="spanO">&quot;Control&quot;</span><span className="spanP">)</span>, <span className="spanG"># arm names</span></div>
-                    <div className="indent">block.sizes = c<span className="spanP">(</span><span className="spanLG">5</span><span className="spanP">)</span>, <span className="spanG"># vector of possible block sizes (here, just {blockSize})</span></div>
+                    <div className="indent">block.sizes = c<span className="spanP">(</span><span className="spanLG">{blockSize}</span><span className="spanP">)</span>, <span className="spanG"># block sizes (dynamic)</span></div>
                     <div className="indent">block.prefix = <span className="spanO">&quot;Block&quot;</span><span className="spanY">) </span><span className="spanG"># block names prefix</span></div>
+                    {/* Rest of the simulated R code remains largely the same */}
                     <div><br></br></div>
                     <div><span className="spanG"># Add sequential position within each block</span></div>
                     <div>block_rand &lt;- block_rand %&gt;%</div>
@@ -193,16 +253,16 @@ export default function Randomize2Page() {
                     <div className="indent">geom_text<span className="spanY">(</span>aes<span className="spanP">(</span>label = id<span className="spanP">)</span>, color = <span className="spanO">&quot;black&quot;</span>, size = <span className="spanLG">3</span><span className="spanY">)</span> +</div>
                     <div className="indent">scale_fill_brewer<span className="spanY">(</span>palette = <span className="spanO">&quot;Set1&quot;</span>, name = <span className="spanO">&quot;Treatment&quot;</span><span className="spanY">)</span> +</div>
                     <div className="indent">labs<span className="spanY">(</span>title = <span className="spanO">&quot;Block randomization of samples by block&quot;</span>,</div>
-                    <div className="indent2">subtitle = paste<span className="spanP">(</span>length<span className="spanB">(</span>unique<span className="spanY">(</span>block_rand<span className="spanB">$</span>block.id<span className="spanY">)</span><span className="spanB">)</span>, <span className="spanO">&quot;blocks with&quot;</span>,</div>
-                    <div className="indent4">unique<span className="spanB">(</span>block_rand<span className="spanB">$</span>block.size<span className="spanB">)</span>,</div>
+                    {/* The subtitle now dynamically reflects the potentially changing parameters */}
+                    <div className="indent2">subtitle = paste<span className="spanP">(</span><span className="spanLG">{numRows}</span>, <span className="spanO">&quot;blocks with&quot;</span>, <span className="spanLG">{blockSize}</span>,</div>
                     <div className="indent4"><span className="spanO">&quot;samples per block, randomized to&quot;</span>,</div>
-                    <div className="indent4">length<span className="spanB">(</span>unique<span className="spanY">(</span>block_rand<span className="spanB">$</span>treatment<span className="spanY">)</span><span className="spanB">)</span>, <span className="spanO">&quot;treatments&quot;</span><span className="spanP">)</span>, </div>
-                    <div className="indent2">x = <span className="spanO">&quot;Treatment sequence&quot;</span>, y = <span className="spanO">&quot;Block&quot;</span><span className="spanY">)</span> + <span className="spanG"># Remove x-axis label</span></div>
-                    <div className="indent">theme_minimal<span className="spanY">()</span>,  +</div>
+                    <div className="indent4"><span className="spanLG">{numTreatments}</span>, <span className="spanO">&quot;treatments&quot;</span><span className="spanP">)</span>,</div>
+                    <div className="indent2">x = <span className="spanO">&quot;Treatment sequence&quot;</span>, y = <span className="spanO">&quot;Block&quot;</span><span className="spanY">)</span> +</div>
+                    <div className="indent">theme_minimal<span className="spanY">()</span> +</div>
                     <div className="indent">theme<span className="spanY">(</span></div>
                     <div className="indent2">panel.grid = element_blank<span className="spanP">()</span>,</div>
-                    <div className="indent2">axis.text.x = element_blank<span className="spanP">()</span>,  <span className="spanG"># Remove x-axis text</span></div>
-                    <div className="indent2">axis.ticks.x = element_blank<span className="spanP">()</span> <span className="spanG"># Remove x-axis ticks</span></div>
+                    <div className="indent2">axis.text.x = element_blank<span className="spanP">()</span>,</div>
+                    <div className="indent2">axis.ticks.x = element_blank<span className="spanP">()</span></div>
                     <div className="indent"><span className="spanY">)</span></div>
                     <div><br></br></div>
                     <div>ggsave<span className="spanY">(</span><span className="spanO">&quot;plots/01_block-randomization.png&quot;</span>, width = <span className="spanLG">8</span>, height = <span className="spanLG">4</span>, dpi = <span className="spanLG">400</span><span className="spanY">)</span></div>
@@ -212,45 +272,47 @@ export default function Randomize2Page() {
                 </div>
             </div>
 
-             {/* Centered RUN Button */}
+            {/* Centered RUN Button */}
              <div className="button-container-centered">
-                {/* Added run-button class and conditional clicked class */}
                 <input
                     className={`button run-button ${runCodeClicked ? 'run-clicked' : ''}`}
                     type="button"
                     onClick={submitRunClick}
+                    // Disable button if validation fails
+                    disabled={!!validationError}
                     value="RUN CODE" />
             </div>
 
-            {/* Chart Container - Displays the new block assignment grid */}
-            {numBlockColumns > 0 && randomization.length > 0 && (
+
+           {/* Display persistent validation error message */}
+           {validationError && (
+               <div className="top" style={{textAlign: 'center', marginTop: '15px'}}>
+                  <p style={{color: 'red', fontSize: '0.9em'}}>Error: {validationError}</p>
+              </div>
+           )}
+
+            {/* Chart Container - Renders only if validation passes and run is clicked */}
+            {!validationError && numBlockColumns > 0 && randomization.length > 0 && (
                 <div className="chart-container">
                     <div className="legend-container">
-                        <Legend /> {/* Now displays horizontally by default */}
+                        <Legend />
                     </div>
-                    {/* Grid for displaying labels and blocks */}
-                    {/* Set CSS variable for column count */}
                     <div className="block-grid-chart" style={{ '--num-columns': numBlockColumns }}>
-                        {/* Render labels and blocks using the helper */}
                         {renderGridContent()}
                     </div>
-                     {/* Centered CONTINUE Button */}
-                    <div className="button-container-centered">
-                        {/* Added continue-button class */}
-                        <input
-                            className="button continue-button"
-                            type="button"
-                            onClick={submitContinueClick}
-                            value="CONTINUE ACTIVITY" />
-                    </div>
+                     {/* Optional: Remove Continue button or change its behavior */}
+                     <div className="button-container-centered">
+                         <input
+                             className="button continue-button"
+                             type="button"
+                             onClick={submitContinueClick}
+                             value="START OVER" // Example: Change button text
+                             />
+                     </div>
                 </div>
             )}
-             {/* Display persistent validation error message if parameters are invalid */}
-             {validationError && (
-                 <div className="top" style={{textAlign: 'center', marginTop: '15px'}}>
-                    <p style={{color: 'red', fontSize: '0.9em'}}>Note: {validationError}</p>
-                </div>
-             )}
+
+
         </div>
     );
 }
