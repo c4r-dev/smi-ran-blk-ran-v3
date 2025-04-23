@@ -164,46 +164,46 @@ export default function Randomize1Page() {
                     {/* --- R Code Simulation --- */}
                     <div><br></br></div>
                     <div><span className="spanG"># Install required packages</span></div>
-                    <div>installed.packages<span className="spanY">(</span><span className="spanO">&quot;blockrand&quot;, &quot;tidyverse&quot;</span><span className="spanY">)</span></div>
+                    <div>installed.packages<span className="spanY">(</span><span className="spanO">&quot;blockrand&quot;</span>, <span className="spanO">&quot;tidyverse&quot;</span><span className="spanY">)</span></div>
                     <div><br></br></div>
                     <div><span className="spanG"># Load required packages</span></div>
                     <div>library<span className="spanY">(</span>blockrand<span className="spanY">)</span></div>
                     <div>library<span className="spanY">(</span>tidyverse<span className="spanY">)</span></div>
                     <div><br></br></div>
                     <div><span className="spanG"># Create block randomization allocation sequence using blockrand package</span></div>
-                    <div>block_rand &lt;- blockrand(n = 30, <span className="spanG"># target number (example value)</span></div>
-                    <div className="indent">num.levels = {numTreatments}, <span className="spanG"># number of treatment arms</span></div>
-                    <div className="indent">levels = c(&quot;Treatment&quot;, &quot;Control&quot;), <span className="spanG"># arm names</span></div>
-                    <div className="indent">block.sizes = c({blockSize}), <span className="spanG"># vector of possible block sizes (here, just {blockSize})</span></div>
-                    <div className="indent">block.prefix = &quot;Block&quot;) <span className="spanG"># block names prefix</span></div>
+                    <div>block_rand &lt;- blockrand<span className="spanY">(</span>n = <span className="spanLG">30</span>, <span className="spanG"># target number (example value)</span></div>
+                    <div className="indent">num.levels = <span className="spanLG">2</span>, <span className="spanG"># number of treatment arms</span></div>
+                    <div className="indent">levels = c<span className="spanP">(</span><span className="spanO">&quot;Treatment&quot;</span>, <span className="spanO">&quot;Control&quot;</span><span className="spanP">)</span>, <span className="spanG"># arm names</span></div>
+                    <div className="indent">block.sizes = c<span className="spanP">(</span><span className="spanLG">5</span><span className="spanP">)</span>, <span className="spanG"># vector of possible block sizes (here, just {blockSize})</span></div>
+                    <div className="indent">block.prefix = <span className="spanO">&quot;Block&quot;</span><span className="spanY">) </span><span className="spanG"># block names prefix</span></div>
                     <div><br></br></div>
                     <div><span className="spanG"># Add sequential position within each block</span></div>
                     <div>block_rand &lt;- block_rand %&gt;%</div>
-                    <div className="indent">group_by(block.id) %&gt;%</div>
-                    <div className="indent">mutate(position_in_block = row_number()) %&gt;%</div>
-                    <div className="indent">ungroup()</div>
+                    <div className="indent">group_by<span className="spanY">(</span>block.id<span className="spanY">) </span> %&gt;%</div>
+                    <div className="indent">mutate<span className="spanY">(</span>position_in_block = row_number<span className="spanP">()</span><span className="spanY">)</span> %&gt;%</div>
+                    <div className="indent">ungroup<span className="spanY">()</span></div>
                     <div><br></br></div>
                     <div><span className="spanG"># Create visualization of the block randomization</span></div>
-                    <div>ggplot(block_rand, aes(x = position_in_block, y = factor(block.id, levels =</div>
-                    <div>rev(unique(block.id))))) +</div>
-                    <div className="indent">geom_tile(aes(fill = treatment), color = &apos;gray30&apos;, width = 0.9, height = 0.9) +</div>
-                    <div className="indent">geom_text(aes(label = id), color = &quot;black&quot;, size = 3) +</div>
-                    <div className="indent">scale_fill_brewer(palette = &quot;Set1&quot;, name = &quot;Treatment&quot;) +</div>
-                    <div className="indent">labs(title = &quot;Block randomization of samples by block&quot;,</div>
-                    <div className="indent2">subtitle = paste(length(unique(block_rand$block.id)), &quot;blocks with&quot;,</div>
-                    <div className="indent4">unique(block_rand$block.size),</div>
-                    <div className="indent4">&quot;samples per block, randomized to&quot;,</div>
-                    <div className="indent4">length(unique(block_rand$treatment)), &quot;treatments)&quot;,</div>
-                    <div className="indent2">x = &quot;Treatment sequence&quot;, y = &quot;Block&quot;) +</div>
-                    <div className="indent">theme_minimal() +</div>
-                    <div className="indent">theme(</div>
-                    <div className="indent2">panel.grid = element_blank(),</div>
-                    <div className="indent2">axis.text.x = element_blank(),  # Remove x-axis text</div>
-                    <div className="indent2">axis.ticks.x = element_blank()  # Remove x-axis ticks</div>
-                    <div className="indent">)</div>
+                    <div>ggplot<span className="spanY">(</span>block_rand, aes<span className="spanP">(</span>x = position_in_block, y = factor<span className="spanB">(</span>block.id, levels =</div>
+                    <div className="indent">rev<span className="spanY">(</span>unique<span className="spanP">(</span>block.id<span className="spanP">)</span><span className="spanY">)</span><span className="spanB">)</span><span className="spanP">)</span><span className="spanY">)</span> +</div>
+                    <div className="indent">geom_tile<span className="spanY">(</span>aes<span className="spanP">(</span>fill = treatment<span className="spanP">)</span>, color = <span className="spanO">&apos;gray30&apos;</span>, width = <span className="spanLG">0.9</span>, height = <span className="spanLG">0.9</span><span className="spanY">)</span> +</div>
+                    <div className="indent">geom_text<span className="spanY">(</span>aes<span className="spanP">(</span>label = id<span className="spanP">)</span>, color = <span className="spanO">&quot;black&quot;</span>, size = <span className="spanLG">3</span><span className="spanY">)</span> +</div>
+                    <div className="indent">scale_fill_brewer<span className="spanY">(</span>palette = <span className="spanO">&quot;Set1&quot;</span>, name = <span className="spanO">&quot;Treatment&quot;</span><span className="spanY">)</span> +</div>
+                    <div className="indent">labs<span className="spanY">(</span>title = <span className="spanO">&quot;Block randomization of samples by block&quot;</span>,</div>
+                    <div className="indent2">subtitle = paste<span className="spanP">(</span>length<span className="spanB">(</span>unique<span className="spanY">(</span>block_rand<span className="spanB">$</span>block.id<span className="spanY">)</span><span className="spanB">)</span>, <span className="spanO">&quot;blocks with&quot;</span>,</div>
+                    <div className="indent4">unique<span className="spanB">(</span>block_rand<span className="spanB">$</span>block.size<span className="spanB">)</span>,</div>
+                    <div className="indent4"><span className="spanO">&quot;samples per block, randomized to&quot;</span>,</div>
+                    <div className="indent4">length<span className="spanB">(</span>unique<span className="spanY">(</span>block_rand<span className="spanB">$</span>treatment<span className="spanY">)</span><span className="spanB">)</span>, <span className="spanO">&quot;treatments&quot;</span><span className="spanP">)</span>, </div>
+                    <div className="indent2">x = <span className="spanO">&quot;Treatment sequence&quot;</span>, y = <span className="spanO">&quot;Block&quot;</span><span className="spanY">)</span> + <span className="spanG"># Remove x-axis label</span></div>
+                    <div className="indent">theme_minimal<span className="spanY">()</span>,  +</div>
+                    <div className="indent">theme<span className="spanY">(</span></div>
+                    <div className="indent2">panel.grid = element_blank<span className="spanP">()</span>,</div>
+                    <div className="indent2">axis.text.x = element_blank<span className="spanP">()</span>,  <span className="spanG"># Remove x-axis text</span></div>
+                    <div className="indent2">axis.ticks.x = element_blank<span className="spanP">()</span> <span className="spanG"># Remove x-axis ticks</span></div>
+                    <div className="indent"><span className="spanY">)</span></div>
                     <div><br></br></div>
-                    <div>ggsave(&quot;plots/01_block-randomization.png&quot;, width = 8, height = 4, dpi = 400)</div>
-                    <div>ggsave(&quot;plots/01_block-randomization.svg&quot;, width = 8, height = 4, dpi = 400)</div>
+                    <div>ggsave<span className="spanY">(</span><span className="spanO">&quot;plots/01_block-randomization.png&quot;</span>, width = <span className="spanLG">8</span>, height = <span className="spanLG">4</span>, dpi = <span className="spanLG">400</span><span className="spanY">)</span></div>
+                    <div>ggsave<span className="spanY">(</span><span className="spanO">&quot;plots/01_block-randomization.svg&quot;</span>, width = <span className="spanLG">8</span>, height = <span className="spanLG">4</span>, dpi = <span className="spanLG">400</span><span className="spanY">)</span></div>
                     <br></br>
                     {/* --- End R Code Simulation --- */}
                 </div>
