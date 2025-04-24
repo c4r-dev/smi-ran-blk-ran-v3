@@ -46,17 +46,17 @@ export default function Randomize2Page() {
         let calculatedRows = 0;
         let calculatedColumns = 0;
 
-        // Rule 1: numBlocks divisibility by numTreatments
-        if (currentNumBlocks % currentNumTreatments !== 0) {
-            errorMsg = `Balanced assignment requires numBlocks (<span class="math-inline">\{currentNumBlocks\}\) to be perfectly divisible by numTreatments \(</span>{currentNumTreatments}).`;
-            console.error(errorMsg);
-            isValid = false;
-        }
+        // // Rule 1: numBlocks divisibility by numTreatments
+        // if (currentNumBlocks % currentNumTreatments !== 0) {
+        //     errorMsg = `Balanced assignment requires numBlocks (<span class="math-inline">\{currentNumBlocks\}\) to be perfectly divisible by numTreatments \(</span>{currentNumTreatments}).`;
+        //     console.error(errorMsg);
+        //     isValid = false;
+        // }
 
-        // Rule 2: numBlocks divisibility by product (for grid layout)
+        // Rule 1: numBlocks divisibility by product (for grid layout)
         if (isValid && (currentNumBlocks % product !== 0)) {
             errorMsg = `Grid layout requires numBlocks (${currentNumBlocks}) to be perfectly divisible by (blockSize * numTreatments = ${product}).`;
-            console.error(errorMsg);
+            // console.error(errorMsg);
             isValid = false;
         }
 
@@ -101,7 +101,7 @@ export default function Randomize2Page() {
         if (currentNumBlocks % currentNumTreatments !== 0) {
             const internalErrorMsg = `Internal Error: numBlocks (<span class="math-inline">\{currentNumBlocks\}\) is not divisible by numTreatments \(</span>{currentNumTreatments}).`;
             console.error(internalErrorMsg);
-            // setValidationError(internalErrorMsg); // Already set by useEffect
+            setValidationError(internalErrorMsg); // Already set by useEffect
             return [];
         }
 
@@ -140,6 +140,7 @@ export default function Randomize2Page() {
         } else {
             // Validation failed, message is already set by useEffect
             console.log(`Submit clicked but validation failed: ${validationError}`);
+            alert(`Submit clicked but validation failed: ${validationError}`);
             setRandomization([]); // Ensure results are cleared
         }
     };
