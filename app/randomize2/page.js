@@ -273,8 +273,15 @@ export default function Randomize2Page() {
                 </div>
             </div>
 
-            {/* Centered RUN Button */}
-             <div className="button-container-centered">
+           {/* Display persistent validation error message */}
+           {validationError && (
+               <div className="top" style={{textAlign: 'center', marginTop: '15px'}}>
+                  <p style={{color: 'red', fontSize: '0.9em'}}>Error: {validationError}</p>
+              </div>
+           )}
+
+           {/* Centered RUN Button */}
+           <div className="button-container-centered">
                 <input
                     className={`button run-button ${runCodeClicked ? 'run-clicked' : ''}`}
                     type="button"
@@ -283,14 +290,6 @@ export default function Randomize2Page() {
                     disabled={!!validationError}
                     value="RUN CODE" />
             </div>
-
-
-           {/* Display persistent validation error message */}
-           {validationError && (
-               <div className="top" style={{textAlign: 'center', marginTop: '15px'}}>
-                  <p style={{color: 'red', fontSize: '0.9em'}}>Error: {validationError}</p>
-              </div>
-           )}
 
             {/* Chart Container - Renders only if validation passes and run is clicked */}
             {!validationError && numBlockColumns > 0 && randomization.length > 0 && (
